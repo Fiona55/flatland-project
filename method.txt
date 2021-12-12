@@ -1,0 +1,16 @@
+Nous avons essayé différentes stratégies : 1+𝝺, algorithme génétique, CMA, PSO (particle swarm optimisation). Finalement, nous avons obtenus des résultats similaires pour deux d’entre elles : PSO et algorithme génétique. Les deux semblent robustes en donnant des résultats similaires dans les tests cependant l’algorithme PSO a nécessité beaucoup plus de temps à optimiser. En effet, il comporte beaucoup plus de paramètres et est donc très compliqué à optimiser. Il semble donc logique de prendre l’algorithme le plus simple et compréhensible et nous avons choisi l’algorithme génétique.
+
+Algorithme Génétique :
+L’implémentation se fait en utilisant les fonctions de la bibliothèque pymoo pymoo.algorithms.soo.nonconvex.ga. Il faut donc installer le package Pymoo avant d’utiliser l’algorithme (pour tester les autres algorithmes implémentés, il faut aussi installer les packages cma et Pyswarm). 
+On définit ensuite un problème d’optimisation à l’aide de la classe ElementWiseProblem. Le nombre de variable du problème est la longueur du tableau de solution x.
+
+Cet algorithme a un très bon potentiel puisqu’il renvoie sans optimisation des hyper-paramètres (paramètres par défaut) une fitness de -56 sur le problème « small ».
+Les paramètres que nous avons modifiés pour améliorer les performances sont la taille de la population et la taille du réseau de neurones. 
+Nous n’avons pas changé la stratégie d’observation (TreeObservation) puisque la stratégie locale est obsolète (mauvaise performante) et en augmentant le rayon, on peut quand même modifier la stratégie. 
+Quand à la policy choisie, nous avons gardé le réseau de neurones sans modifier sa profondeur (rajouter des couches et réduire le nombre de neurons améliorait la performance de PSO et CMA mais pas de l’algorithme génétique). L’ajout d’un dropout ou l’activation softmax améliorait aussi l’algorithme PSO mais pas l’algorithme génétique.
+On se rend compte ici que ce modèle est simple mais efficace tandis que PSO nécessitait de nombreuses features additionnelles.
+
+Les paramètres retenus pour cette méthode sont : pop_size = 20 (taille de la population) et hidsize1 = hidsize2 = 128. Augmenter la taille de la population ou réduire le nombre de neurones faisait stagner l’algorithme à une mauvaise fitness.
+
+En optimisant les paramètres, on obtient facilement une fitness de 0 pour le problème « small ». En passant à l’échelle du large, on peut continuer l’optimisation des paramètres. 
+On peut tester le résultat obtenu avec le fichier test.py, que l’on a modifié pour faire 15 tests. Notre algorithme se révèle très robuste puisque les 15 tests donnent une mean fit de -438 tandis que la plage de valeurs est comprise entre -435 et - 460.
